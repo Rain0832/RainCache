@@ -77,7 +77,7 @@ void testHotDataAccess()
     // 为LRU-K设置合适的参数：
     // - 主缓存容量与其他算法相同
     // - 历史记录容量设为可能访问的所有键数量
-    // - k=2表示数据被访问2次后才会进入缓存，适合区分热点和冷数据
+    // - k = 2 表示数据被访问 2 次后才会进入缓存，适合区分热点和冷数据
     KamaCache::KLruKCache<int, std::string> lruk(CAPACITY, HOT_KEYS + COLD_KEYS, 2);
     KamaCache::KLfuCache<int, std::string> lfuAging(CAPACITY, 20000);
 
@@ -93,23 +93,24 @@ void testHotDataAccess()
     // 为所有的缓存对象进行相同的操作序列测试
     for (int i = 0; i < caches.size(); ++i)
     {
-        // 先预热缓存，插入一些数据
+        // 先预热缓存，插入一些热点数据
         for (int key = 0; key < HOT_KEYS; ++key)
         {
             std::string value = "value" + std::to_string(key);
             caches[i]->put(key, value);
         }
 
-        // 交替进行put和get操作，模拟真实场景
+        // 交替进行 put 和 get 操作，模拟真实场景
         for (int op = 0; op < OPERATIONS; ++op)
         {
             // 大多数缓存系统中读操作比写操作频繁
             // 所以设置30%概率进行写操作
             bool isPut = (gen() % 100 < 30);
+            bool isHot = (gen() % 100 < 70);
             int key;
 
             // 70%概率访问热点数据，30%概率访问冷数据
-            if (gen() % 100 < 70)
+            if (isHot)
             {
                 key = gen() % HOT_KEYS; // 热点数据
             }
@@ -154,8 +155,9 @@ void testLoopPattern()
     KamaCache::KArcCache<int, std::string> arc(CAPACITY);
     // 为LRU-K设置合适的参数：
     // - 历史记录容量设为总循环大小的两倍，覆盖范围内和范围外的数据
-    // - k=2，对于循环访问，这是一个合理的阈值
+    // - k = 2，对于循环访问，这是一个合理的阈值
     KamaCache::KLruKCache<int, std::string> lruk(CAPACITY, LOOP_SIZE * 2, 2);
+    // 平均频率最大值 - 3000
     KamaCache::KLfuCache<int, std::string> lfuAging(CAPACITY, 3000);
 
     std::array<KamaCache::KICachePolicy<int, std::string> *, 5> caches = {&lru, &lfu, &arc, &lruk, &lfuAging};
@@ -169,7 +171,7 @@ void testLoopPattern()
     // 为每种缓存算法运行相同的测试
     for (int i = 0; i < caches.size(); ++i)
     {
-        // 先预热一部分数据（只加载20%的数据）
+        // 先预热一部分数据（只加载 20% / 1/5 的数据）
         for (int key = 0; key < LOOP_SIZE / 5; ++key)
         {
             std::string value = "loop" + std::to_string(key);
@@ -188,26 +190,31 @@ void testLoopPattern()
 
             // 按照不同模式选择键
             if (op % 100 < 60)
-            { // 60%顺序扫描
+            // 60%顺序扫描
+            {
                 key = current_pos;
                 current_pos = (current_pos + 1) % LOOP_SIZE;
             }
             else if (op % 100 < 90)
-            { // 30%随机跳跃
+            // 30%随机跳跃
+            {
                 key = gen() % LOOP_SIZE;
             }
             else
-            { // 10%访问范围外数据
+            // 10%访问范围外数据
+            {
                 key = LOOP_SIZE + (gen() % LOOP_SIZE);
             }
 
             if (isPut)
+            // 存数据
             {
                 // 执行put操作，更新数据
                 std::string value = "loop" + std::to_string(key) + "_v" + std::to_string(op % 100);
                 caches[i]->put(key, value);
             }
             else
+            // 读数据
             {
                 // 执行get操作并记录命中情况
                 std::string result;
