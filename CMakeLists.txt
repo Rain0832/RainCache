@@ -5,11 +5,15 @@ cmake_minimum_required(VERSION 3.10)
 project(KCacheSystem)
 
 # 设置 C++ 标准
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 指定源文件目录下的所有 .cpp 文件
 file(GLOB SOURCES "*.cpp")
+
+# 添加头文件目录到头文件搜索路径
+include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/KArcCache)
 
 # 设置目标可执行文件
 add_executable(main ${SOURCES})

@@ -1,10 +1,6 @@
-# KamaCache
+# RainCache
 
-> ⭐️ 本项目为[【代码随想录知识星球】](https://programmercarl.com/other/kstar.html) 教学项目   
-> ⭐️ 在 [缓存项目文档](https://www.programmercarl.com/other/project_huancun.html)  里详细讲解：**项目前置知识 + 项目细节 +  代码解读 + 项目难点 + 面试题与回答 + 简历写法  + 项目拓展**。 全面帮助你用这个项目求职面试！
-
-
-## 项目介绍
+### 项目介绍
 本项目使用多个页面替换策略实现一个线程安全的缓存：
 - LRU：最近最久未使用
 - LFU：最近不经常使用
@@ -20,11 +16,31 @@
     - LFU分片：对多线程下的高并发访问有性能上的优化
     - 引入最大平均访问频次：解决过去的热点数据最近一直没被访问，却仍占用缓存等问题
 
-## 系统环境 
+# 项目架构
+
+### CachePolicy
+`KICachePolicy.h`内写出了缓存策略提供的外部接口，作为基类以供覆写。
+
+### LRU 部分
+`KLruCache.h`
+
+### LFU 部分
+`KLfuCache.h`
+
+### Arc 部分
+`KArcCache/KArcCache.h`
+`KArcCache/KArcCacheNode.h`
+`KArcCache/KArcLruPart.h`
+`KArcCache/KArcLfuPart.h`
+
+# 环境搭建 && 运行测试
+
+### 系统环境 
 ```
 Ubuntu 22.04 LTS
 ```
-## 编译
+
+### 编译
 创建一个build文件夹并进入
 ```
 mkdir build && cd build
@@ -42,13 +58,13 @@ make
 make clean
 ```
 
-## 运行
+### 运行
 ```
 ./main
 ```
 
-## 测试结果
+### 测试结果
 不同缓存策略缓存命中率测试对比结果如下：
 （ps: 该测试代码只是尽可能地模拟真实的访问场景，但是跟真实的场景仍存在一定差距，测试结果仅供参考。）
 
-![alt text](images/hitTest.jpg)
+![alt text](images/myHitTest.png)
