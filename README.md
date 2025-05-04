@@ -19,25 +19,25 @@
 # 项目架构
 
 ### CachePolicy
-`KICachePolicy.h`内写出了缓存策略提供的外部接口，作为基类以供覆写。
+`KICachePolicy.h` 包含了 缓存策略提供的外部接口，作为基类以供覆写。
 
 ### LRU 部分
-`KLruCache.h`
+`KLruCache.h` 包含了 基础的`LRU 算法实现`、`LRU-k 优化算法实现`、`LRU Hash-Slice 优化算法实现`
 
 ### LFU 部分
-`KLfuCache.h`
+`KLfuCache.h` 包含了 基础的`LFU 算法实现`、`LFU Hash-Slice 优化算法实现`
 
 ### Arc 部分
-`KArcCache/KArcCache.h`
-`KArcCache/KArcCacheNode.h`
-`KArcCache/KArcLruPart.h`
-`KArcCache/KArcLfuPart.h`
+`KArcCache/KArcCache.h` 包含了 `ARC 核心算法实现`
+`KArcCache/KArcCacheNode.h` 包含了 `ARC 数据结构实现`
+`KArcCache/KArcLruPart.h` 包含了 `ARC 中 LRU 算法实现`
+`KArcCache/KArcLfuPart.h` 包含了 `ARC 中 LFU 算法实现`
 
 # 环境搭建 && 运行测试
 
 ### 系统环境 
 ```
-Ubuntu 22.04 LTS
+Ubuntu 24.04.2 LTS
 ```
 
 ### 编译
@@ -67,4 +67,4 @@ make clean
 不同缓存策略缓存命中率测试对比结果如下：
 （ps: 该测试代码只是尽可能地模拟真实的访问场景，但是跟真实的场景仍存在一定差距，测试结果仅供参考。）
 
-![alt text](images/myHitTest.png)
+<img src="images/myHitTest.png" alt="alt text" width="75%" />

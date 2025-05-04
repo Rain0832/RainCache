@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../KICachePolicy.h"
+#include "KICachePolicy.h"
 #include "KArcLruPart.h"
 #include "KArcLfuPart.h"
 #include <memory>
