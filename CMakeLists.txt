@@ -13,7 +13,7 @@ file(GLOB SOURCES "*.cpp")
 
 # 添加头文件目录到头文件搜索路径
 include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/KArcCache)
+include_directories(${CMAKE_SOURCE_DIR}/RainArc)
 
 # 设置目标可执行文件
 add_executable(main ${SOURCES})
