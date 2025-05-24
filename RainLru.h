@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 #include <mutex>
+#include <thread>
 #include <unordered_map>
 
 #include "RainCache.h"
@@ -293,7 +294,7 @@ namespace RainCache
       size_t sliceSize = std::ceil(capacity / static_cast<double>(sliceNum_)); // 获取每个分片的大小
       for (int i = 0; i < sliceNum_; ++i)
       {
-        lruSliceCaches_.emplace_back(new KLruCache<Key, Value>(sliceSize));
+        lruSliceCaches_.emplace_back(new RainLru<Key, Value>(sliceSize));
       }
     }
 
@@ -322,15 +323,16 @@ namespace RainCache
     }
 
   private:
-    size_t capacity_;                                                  // 总容量
-    int sliceNum_;                                                     // 切片数量
-    std::vector<std::unique_ptr<RainLru<Key, Value>>> lruSliceCaches_; // 切片LRU缓存
-
     // 将key转换为对应hash值
     size_t Hash(Key key)
     {
       std::hash<Key> hashFunc;
       return hashFunc(key);
     }
+
+  private:
+    size_t capacity_;                                                  // 总容量
+    int sliceNum_;                                                     // 切片数量
+    std::vector<std::unique_ptr<RainLru<Key, Value>>> lruSliceCaches_; // 切片LRU缓存
   };
 } // namespace RainCache
