@@ -19,19 +19,19 @@
 # 项目架构
 
 ### CachePolicy
-`KICachePolicy.h` 包含了 缓存策略提供的外部接口，作为基类以供覆写。
+`RainCache.h` 包含了 缓存策略提供的外部接口，作为基类以供覆写。
 
 ### LRU 部分
-`KLruCache.h` 包含了 基础的`LRU 算法实现`、`LRU-k 优化算法实现`、`LRU Hash-Slice 优化算法实现`
+`RainLru.h` 包含了 基础的`LRU 算法实现`、`LRU-k 优化算法实现`、`LRU Hash-Slice 优化算法实现`
 
 ### LFU 部分
-`KLfuCache.h` 包含了 基础的`LFU 算法实现`、`LFU Hash-Slice 优化算法实现`
+`RainLfu.h` 包含了 基础的`LFU 算法实现`、`LFU Hash-Slice 优化算法实现`
 
 ### Arc 部分
-`KArcCache/KArcCache.h` 包含了 `ARC 核心算法实现`
-`KArcCache/KArcCacheNode.h` 包含了 `ARC 数据结构实现`
-`KArcCache/KArcLruPart.h` 包含了 `ARC 中 LRU 算法实现`
-`KArcCache/KArcLfuPart.h` 包含了 `ARC 中 LFU 算法实现`
+`RainArc/RainArc.h` 包含了 `ARC 核心算法实现`
+`RainArc/RainArcNode.h` 包含了 `ARC 数据结构实现`
+`RainArc/RainArcLru.h` 包含了 `ARC 中 LRU 算法实现`
+`RainArc/RainArcLfu.h` 包含了 `ARC 中 LFU 算法实现`
 
 # 环境搭建 && 运行测试
 
